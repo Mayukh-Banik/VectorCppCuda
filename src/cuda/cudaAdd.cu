@@ -2,6 +2,7 @@
 #include <cuda_runtime.h>
 #include <iostream>
 
+
 __global__ void add_kernel(int a, int b, int* c)
 {
     *c = a + b;
@@ -9,6 +10,7 @@ __global__ void add_kernel(int a, int b, int* c)
 
 void add_GPU(int a, int b, int* c)
 {
+
     int* d_c;
     cudaError_t err;
     err = cudaMalloc((void **)&d_c, sizeof(int));
@@ -40,4 +42,6 @@ void add_GPU(int a, int b, int* c)
         exit(EXIT_FAILURE);
     }
     cudaFree(d_c);
+    std::cerr << "GPU" << std::endl;
 }
+
