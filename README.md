@@ -1,4 +1,4 @@
-# VectorCppCuda
+# Matrixin
 
 **Goals**
 
