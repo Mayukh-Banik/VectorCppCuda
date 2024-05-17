@@ -1,8 +1,10 @@
 {
     "files.associations": {
         "*.cpp": "cpp",
+        "*.cu": "cuda-cpp",
         "*.hpp": "cpp",
-        "*.h": "cpp"
+        "*.h": "cpp",
+        "random": "cpp"
     },
     "[cpp]": {
         "C_Cpp.default.cppStandard": "c++17",
