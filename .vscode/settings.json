@@ -1,0 +1,18 @@
+{
+    "files.associations": {
+        "*.cpp": "cpp",
+        "*.hpp": "cpp",
+        "*.h": "cpp"
+    },
+    "[cpp]": {
+        "C_Cpp.default.cppStandard": "c++17",
+        "C_Cpp.default.cStandard": "c17"
+    },
+    "[cuda-cpp]": {
+        "C_Cpp.default.cppStandard": "c++17", // CUDA might be typically using C++14 standards
+        "C_Cpp.default.cStandard": "c17"
+    },
+    "[env]": {
+        "workbench.editor.languageDetection": false 
+    }
+}
