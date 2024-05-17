@@ -24,3 +24,5 @@ lib - libraries from other sources
 test - location of test files
     test/cpp - tests functionality of cpp/cu files dynamically/statically loaded
     test/py - python shared library functionality
+
+![image](https://github.com/Mayukh-Banik/VectorCppCuda/assets/91218517/e6fc6991-ae9f-4055-a7c9-bd18b07dd562)
