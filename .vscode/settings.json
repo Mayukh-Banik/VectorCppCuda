@@ -4,7 +4,9 @@
         "*.cu": "cuda-cpp",
         "*.hpp": "cpp",
         "*.h": "cpp",
-        "random": "cpp"
+        "random": "cpp",
+        "cstdint": "cpp",
+        "complex": "cpp"
     },
     "[cpp]": {
         "C_Cpp.default.cppStandard": "c++17",

@@ -1,63 +1,44 @@
 import os
-from SCons.Script import *
+import SCons
 
-# Create a build environment
+# Initialize the environment
 env = Environment()
 
-# Set the compiler to NVCC for CUDA and g++ for C++
-env['CC'] = '/usr/bin/g++'
-env['CXX'] = '/usr/bin/g++'
-env['LINK'] = '/usr/bin/g++'
+# Define the path to the NVCC compiler
+env['ENV']['PATH'] = os.environ['PATH']
+env['CC'] = 'nvcc'
+env['CXX'] = 'nvcc'
+env['NVCC'] = 'nvcc'
 
-# Set NVCC as a separate tool for CUDA files
-env['NVCC'] = '/usr/bin/nvcc'
+# Define common flags (consider separating if some are not applicable to NVCC)
+common_flags = ['-Iinclude', '-g', '-dc', '-G', '-std=c++17','-I/usr/include/python3.10', '-I/home/weket/.local/lib/python3.10/site-packages/pybind11/include']
+cpp_flags = ['-Xcompiler', '-fPIC', '-Xcompiler', '-g']  # Specify C++ specific flags
+cu_flags = ['-dc', '-G', '-std=c++17', '-Iinclude', '-Xcompiler', '-fPIC']  # CUDA specific flags
 
-# Set debugging and PIC flags, ensuring no duplication
-env.Append(CCFLAGS=['-g', '-fPIC'])
-env.Append(CXXFLAGS=['-g', '-fPIC'])
-env.Append(NVCCFLAGS=['-g', '-Xcompiler', '-fPIC', '-arch=sm_86'])
+# Update the flags
+env.Append(CPPFLAGS=common_flags)
+env.Append(CXXFLAGS=cpp_flags)
+env.Append(CUDAFLAGS=cu_flags)
 
-# Explicitly define the include directory path
-include_dir = os.path.abspath('include')
+# Define source and object directories
+src_dir = 'src'
+obj_dir = 'obj'
 
-# Define CUDA builder with NVCC-specific flags
-cuda = Builder(action='$NVCC -c $SOURCE -o $TARGET -I' + include_dir + ' $NVCCFLAGS',
+# Identify all source files
+cpp_files = [os.path.join(dp, f) for dp, dn, filenames in os.walk(src_dir) for f in filenames if f.endswith('.cpp')]
+cu_files = [os.path.join(dp, f) for dp, dn, filenames in os.walk(src_dir) for f in filenames if f.endswith('.cu')]
+
+# Custom builder for CUDA files
+cuda = Builder(action='$NVCC -o $TARGET -c $SOURCE $CUDAFLAGS',
                suffix='.o',
                src_suffix='.cu')
-env.Append(BUILDERS={'Cuda': cuda})
+env.Append(BUILDERS={'CUDA': cuda})
 
-# Set the include directory
-env.Append(CPPPATH=[include_dir])
+# Compile CUDA and C++ files
+for cu_file in cu_files:
+    obj_path = os.path.join(obj_dir, os.path.splitext(os.path.relpath(cu_file, src_dir))[0] + '.o')
+    env.CUDA(target=obj_path, source=cu_file)
 
-# Output directories
-obj_dir = 'obj'
-bin_dir = 'bin'
-if not os.path.exists(obj_dir):
-    os.makedirs(obj_dir)
-if not os.path.exists(bin_dir):
-    os.makedirs(bin_dir)
-
-def obj_target(source):
-    return os.path.join(obj_dir, os.path.splitext(os.path.basename(str(source)))[0] + '.o')
-
-# Collect source files
-cpp_files = Glob(os.path.join('src/cpp', '*.cpp'))
-cuda_files = Glob(os.path.join('src/cuda', '*.cu'))
-
-objects = []
-
-# Compile C++ source files
-for src in cpp_files:
-    target = obj_target(src)
-    obj = env.Object(target=target, source=src)
-    objects.append(obj)
-
-# Compile CUDA source files
-for src in cuda_files:
-    target = obj_target(src)
-    obj = env.Cuda(target=target, source=src)
-    objects.append(obj)
-
-# Create both shared and static libraries
-shared_lib = env.SharedLibrary(target=os.path.join(bin_dir, 'mylib'), source=objects)
-static_lib = env.StaticLibrary(target=os.path.join(bin_dir, 'mylib'), source=objects)
+for cpp_file in cpp_files:
+    obj_path = os.path.join(obj_dir, os.path.splitext(os.path.relpath(cpp_file, src_dir))[0] + '.o')
+    env.Object(target=obj_path, source=cpp_file)
