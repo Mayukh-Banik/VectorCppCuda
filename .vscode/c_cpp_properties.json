@@ -4,14 +4,14 @@
             "name": "Linux",
             "includePath": [
                 "${workspaceFolder}/**",
-                "~/.local/lib/python3.10/site-packages/pybind11/include",
+                "${workspaceFolder}/include/**",
+                "${workspaceFolder}/include",
                 "/usr/include/python3.10",
-                "${workspaceFolder}/include"
+                "/home/weket/.local/lib/python3.10/site-packages/pybind11/include"
             ],
             "defines": [],
-            "compilerPath": "/usr/bin/nvcc",
             "cStandard": "c17",
-            "cppStandard": "gnu++17",
+            "cppStandard": "c++17",
             "intelliSenseMode": "linux-gcc-x64"
         }
     ],
