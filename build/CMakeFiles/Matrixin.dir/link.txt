@@ -1,1 +1,0 @@
-/usr/bin/g++ -fPIC -g -shared -Wl,-soname,Matrixin.so -o Matrixin.so CMakeFiles/Matrixin.dir/src/host/main.cpp.o

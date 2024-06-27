@@ -1,3 +1,0 @@
-/home/weket/VectorCppCuda/build/CMakeFiles/Matrixin.dir
-/home/weket/VectorCppCuda/build/CMakeFiles/edit_cache.dir
-/home/weket/VectorCppCuda/build/CMakeFiles/rebuild_cache.dir

@@ -1,8 +1,0 @@
-[
-{
-  "directory": "/home/weket/VectorCppCuda/build",
-  "command": "/usr/bin/g++ -DMatrixin_EXPORTS -I/home/weket/VectorCppCuda/include -I/usr/include/python3.10 -I/home/weket/.local/lib/python3.10/site-packages/pybind11/include -g -std=gnu++17 -fPIC -o CMakeFiles/Matrixin.dir/src/host/main.cpp.o -c /home/weket/VectorCppCuda/src/host/main.cpp",
-  "file": "/home/weket/VectorCppCuda/src/host/main.cpp",
-  "output": "CMakeFiles/Matrixin.dir/src/host/main.cpp.o"
-}
-]
